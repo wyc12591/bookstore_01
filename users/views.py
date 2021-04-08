@@ -5,7 +5,8 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse
 
-from users.models import Passport
+from users.models import Passport, Address
+from utils.decorators import login_required
 
 
 def register(request):
@@ -77,3 +78,20 @@ def login_check(request):
 def logout(request):
     request.session.flush()
     return redirect(reverse('books:index'))
+
+
+@login_required
+def user(request):
+    """用户中心-信息页"""
+    passport_id = request.session.get('passport_id')
+    addr = Address.objects.get_default_address(passport_id=passport_id)
+
+    books_li = []
+
+    context = {
+        'addr': addr,
+        'page': 'user',
+        'books_li': books_li
+    }
+
+    return render(request, 'users/user_center_info.html', context)
