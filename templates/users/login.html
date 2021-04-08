@@ -1,6 +1,33 @@
 {% load static %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+<script>
+    $(function () {
+        $('#btnLogin').click(function () {
+            var username = $("#username").val()
+            var password = $("#pwd").val()
+            var remember = $('input[name="remember"]').prop('checked')
+            var csrfmiddlewaretoken = $('input[name="csrfmiddlewaretoken"]').val()
+
+            var params = {
+                username: username,
+                password: password,
+                remember: remember,
+                csrfmiddlewaretoken: csrfmiddlewaretoken
+            }
+            $.post('/user/login_check/', params, function (data) {
+                if (data.res === 1) {
+                    location.href = data.next_url;
+                } else if (data.res === 2) {
+                    alert("数据不完整");
+                } else if (data.res === 0) {
+                    alert("用户名或密码错误");
+                }
+            })
+        })
+    })
+</script>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>尚硅谷书城-登录</title>
@@ -22,18 +49,17 @@
                 <a href="#">立即注册</a>
             </div>
             <div class="form_input">
-                <form>
-                    <input type="text" name="username" class="name_input" placeholder="请输入用户名">
-                    <div class="user_error">输入错误</div>
-                    <input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
-                    <div class="pwd_error">输入错误</div>
-                    <div class="more_input clearfix">
-                        <input type="checkbox" name="">
-                        <label>记住用户名</label>
-                        <a href="#">忘记密码</a>
-                    </div>
-                    <input type="submit" name="" value="登录" class="input_submit">
-                </form>
+                {% csrf_token %}
+                <input type="text" id="username" class="name_input" value="{{ username }}" placeholder="请输入用户名">
+                <div class="user_error">输入错误</div>
+                <input type="password" id="pwd" class="pass_input" placeholder="请输入密码">
+                <div class="pwd_error">输入错误</div>
+                <div class="more_input clearfix">
+                    <input type="checkbox" name="remember" {{ checked }}>
+                    <label>记住用户名</label>
+                    <a href="#">忘记密码</a>
+                </div>
+                <input type="button" id="btnLogin" value="登录" class="input_submit">
             </div>
         </div>
     </div>

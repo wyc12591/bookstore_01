@@ -1,7 +1,7 @@
 import re
 
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
-
 # Create your views here.
 from django.urls import reverse
 
@@ -45,3 +45,30 @@ def login(request):
     }
 
     return render(request, 'users/login.html', context)
+
+
+def login_check(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    remember = request.POST.get('remember')
+
+    if not all([username, password, remember]):
+        return JsonResponse({'res': 2})
+
+    passport = Passport.objects.get_one_passport(username=username, password=password)
+
+    if passport:
+        next_url = reverse('books:index')
+        jres = JsonResponse({'res': 1, 'next_url': next_url})
+
+        if remember == 'true':
+            jres.set_cookie('username', username, max_age=7 * 24 * 3600)
+        else:
+            jres.delete_cookie('username')
+
+        request.session['islogin'] = True
+        request.session['username'] = username
+        request.session['passport_id'] = passport.id
+        return jres
+    else:
+        return JsonResponse({'res': 0})
