@@ -29,4 +29,19 @@ def register_handle(request):
         print("e: ", e)
         return render(request, 'users/register.html', {'errmsg': '用户名已存在！'})
 
-    return redirect(reverse('user:register'))
+    return redirect(reverse('book:index'))
+
+
+def login(request):
+    if request.COOKIES.get("username"):
+        username = request.COOKIES.get("username")
+        checked = 'checked'
+    else:
+        username = ''
+        checked = ''
+    context = {
+        'username': username,
+        'checked': checked,
+    }
+
+    return render(request, 'users/login.html', context)

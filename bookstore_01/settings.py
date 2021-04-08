@@ -112,10 +112,12 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 TINYMCE_DEFAULT_CONFIG = {
-    'theme': 'advanced',
+    'theme': 'silver',
     'width': 600,
     'height': 400,
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "static")
 
 
 # Internationalization

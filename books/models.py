@@ -1,7 +1,7 @@
+import tinymce.models
 from django.db import models
 
 # Create your models here.
-from tinymce.models import HTMLField
 
 from books.enums import BOOKS_TYPE, STATUS_CHOICE, PYTHON, ONLINE
 from db.base_model import BaseModel
@@ -42,7 +42,7 @@ class Books(BaseModel):
     unit = models.CharField(max_length=20, verbose_name="商品单位")
     stock = models.IntegerField(default=1, verbose_name="商品库存")
     sales = models.IntegerField(default=0, verbose_name="商品销量")
-    detail = HTMLField(verbose_name="商品详情")
+    detail = tinymce.models.HTMLField(verbose_name="商品详情")
     image = models.ImageField(upload_to='books', verbose_name="商品图片")
     status = models.SmallIntegerField(default=ONLINE, choices=status_choices, verbose_name="商品状态")
 
