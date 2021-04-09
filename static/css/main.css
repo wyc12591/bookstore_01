@@ -230,28 +230,102 @@ html,body{height:100%}
 	width:1198px;
 	height:398px;
 	border:1px solid #ededed;
-	margin:0 auto 20px;
+	margin: 0 auto 20px;
 }
 
-.book_detail_pic{width:350px;height:350px;margin:24px 0 0 24px;}
-.book_detail_list{
-	width:730px;height:350px;margin:24px 24px 0 0;
+.book_detail_pic {
+	width: 350px;
+	height: 350px;
+	margin: 24px 0 0 24px;
 }
-.book_detail_list h3{font-size:24px;line-height:24px;color:#666;font-weight:normal;}
-.book_detail_list p{color:#666;line-height:40px;}
-.prize_bar{height:72px;background-color:#fff5f5;line-height:72px;}
-.prize_bar .show_pirze{font-size:20px;color:#ff3e3e;padding-left:20px}
-.prize_bar .show_pirze em{font-style:normal;font-size:36px;padding-left:10px}
-.prize_bar .show_unit{padding-left:150px}
 
-.book_num{height:52px;margin-top:19px;}
-.book_num .num_name{width:70px;height:52px;line-height:52px;}
-.book_num .num_add{width:75px;height:50px;border:1px solid #dddddd}
-.book_num .num_add input{width:49px;height:50px;text-align:center;line-height:50px;border:0px;outline:none;font-size:14px;color:#666}
-.book_num .num_add .add,.book_num .num_add .minus{width:25px;line-height:25px;text-align:center;border-left:1px solid #ddd;border-bottom:1px solid #ddd;color:#666;font-size:14px}
-.book_num .num_add .minus{border-bottom:0px}
+.book_detail_list {
+	width: 730px;
+	height: 350px;
+	margin: 24px 24px 0 0;
+}
 
-.total{height:35px;line-height:35px;margin-top:25px;}
+.book_detail_list h3 {
+	font-size: 24px;
+	line-height: 24px;
+	color: #666;
+	font-weight: normal;
+}
+
+.book_detail_list p {
+	color: #666;
+	line-height: 40px;
+}
+
+.prize_bar {
+	height: 72px;
+	background-color: #fff5f5;
+	line-height: 72px;
+}
+
+.prize_bar .show_prize {
+	font-size: 20px;
+	color: #ff3e3e;
+	padding-left: 20px
+}
+
+.prize_bar .show_prize em {
+	font-style: normal;
+	font-size: 36px;
+	padding-left: 10px
+}
+
+.prize_bar .show_unit {
+	padding-left: 150px
+}
+
+.book_num {
+	height: 52px;
+	margin-top: 19px;
+}
+
+.book_num .num_name {
+	width: 70px;
+	height: 52px;
+	line-height: 52px;
+}
+
+.book_num .num_add {
+	width: 75px;
+	height: 50px;
+	border: 1px solid #dddddd
+}
+
+.book_num .num_add input {
+	width: 49px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+	border: 0px;
+	outline: none;
+	font-size: 14px;
+	color: #666
+}
+
+.book_num .num_add .add, .book_num .num_add .minus {
+	width: 25px;
+	line-height: 25px;
+	text-align: center;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	color: #666;
+	font-size: 14px
+}
+
+.book_num .num_add .minus {
+	border-bottom: 0px
+}
+
+.total {
+	height: 35px;
+	line-height: 35px;
+	margin-top: 25px;
+}
 .total em{font-style:normal;color:#ff3e3e;font-size:18px}
 
 .operate_btn{height:40px;margin-top:35px;font-size:0;position:relative;}

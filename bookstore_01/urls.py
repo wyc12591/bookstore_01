@@ -20,5 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include('users.urls', namespace='user')),
     path('tinymce/', include('tinymce.urls')),
-    path('', include('books.urls', namespace='book'))
+    path('', include('books.urls', namespace='book')),
+    path('cart/', include('cart.urls', namespace='cart')),  # 购物车模块
 ]
