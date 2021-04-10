@@ -11,6 +11,8 @@ from utils.decorators import login_required
 # Create your views here.
 
 
+# 前端发过来的数据：商品id 商品数目 books_id books_count
+# 涉及到数据的修改，使用post方式
 @login_required
 def cart_add(request):
     """向购物车中添加数据"""
@@ -31,13 +33,13 @@ def cart_add(request):
     try:
         count = int(books_count)
     except Exception as e:
-        # 商品數目不合法
-        return JsonResponse({'res': 3, 'errmsg': '商品數量必须为数字'})
+        # 商品数目不合法
+        return JsonResponse({'res': 3, 'errmsg': '商品数量必须为数字'})
 
     # 添加商品到购物车
     # 每个用户的购物车记录用一条hash数据保存，格式：cart_用户id：商品id 商品数量
     conn = get_redis_connection('default')
-    cart_key = 'cart%d' % request.session.get('passport_id')
+    cart_key = 'cart_%d' % request.session.get('passport_id')
 
     res = conn.hget(cart_key, books_id)
     if res is None:
@@ -65,6 +67,7 @@ def cart_count(request):
     # 计算用户购物车商品的数量
     conn = get_redis_connection('default')
     cart_key = 'cart_%d' % request.session.get('passport_id')
+    # res = conn.hlen(cart_key) 显示商品的条目数
     res = 0
     res_list = conn.hvals(cart_key)
 
@@ -75,6 +78,7 @@ def cart_count(request):
     return JsonResponse({'res': res})
 
 
+# http://127.0.0.1:8000/cart/
 @login_required
 def cart_show(request):
     """显示用户购物车页面"""
@@ -105,7 +109,66 @@ def cart_show(request):
     context = {
         'books_li': books_li,
         'total_count': total_count,
-        'total_price': total_price
+        'total_price': total_price,
     }
 
     return render(request, 'cart/cart.html', context)
+
+
+# 前端传过来的参数：商品id books_id
+# post
+# /cart/del/
+@login_required
+def cart_del(request):
+    """删除用户购物车中商品的信息"""
+
+    # 接收数据
+    books_id = request.POST.get('books_id')
+
+    # 校验商品是否存放
+    if not all([books_id]):
+        return JsonResponse({'res': 1, 'errmsg': '数据不完整'})
+    books = Books.objects.get_books_by_id(books_id=books_id)
+    if books is None:
+        return JsonResponse({'res': 2, 'errmsg': '商品不存在'})
+    # 删除购物车商品信息
+    conn = get_redis_connection('default')
+    cart_key = 'cart_%d' % request.session.get('passport_id')
+    conn.hdel(cart_key, books_id)
+
+    # 返回信息
+    return JsonResponse({'res': 3})
+
+
+# 前端传过来的参数：商品id books_id 更新数目 books_count
+# post
+# /cart/update/
+@login_required
+def cart_update(request):
+    """更新购物车商品数目"""
+
+    # 接收数据
+    books_id = request.POST.get('books_id')
+    books_count = request.POST.get('books_count')
+
+    # 数据的校验
+    if not all([books_id, books_count]):
+        return JsonResponse({'res': 1, 'errmsg': '数据不完整'})
+    books = Books.objects.get_books_by_id(books_id=books_id)
+    if books is None:
+        return JsonResponse({'res': 2, 'errmsg': '商品不存在'})
+    try:
+        books_count = int(books_count)
+    except Exception as e:
+        return JsonResponse({'res': 3, 'errmsg': '商品数目必须为数字'})
+
+    # 更新操作
+    conn = get_redis_connection('default')
+    cart_key = 'cart_%d' % request.session.get('passport_id')
+
+    # 判断商品库存
+    if books_count > books.stock:
+        return JsonResponse({'res': 4, 'errmsg': '商品库存不足'})
+
+    conn.hset(cart_key, books_id, books_count)
+    return JsonResponse({'res': 5})

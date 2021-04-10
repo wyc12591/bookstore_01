@@ -9,13 +9,13 @@
             // 计算总价
             function update_total_price() {
                 // 获取商品的价格和数量
-                books_price = $('.show_prize').children('em').text()
+                books_price = $('.show_pirze').children('em').text()
                 books_count = $('.num_show').val()
                 // 计算商品的总价
                 books_price = parseFloat(books_price)
                 books_count = parseInt(books_count)
-                total_price = books_price * books_count
-                // 设置商品总价
+
+                total_price = books_price * books_count                // 设置商品总价
                 $('.total').children('em').text(total_price.toFixed(2) + '元')
             }
 

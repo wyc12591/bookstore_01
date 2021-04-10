@@ -21,5 +21,5 @@ urlpatterns = [
     path('user/', include('users.urls', namespace='user')),
     path('tinymce/', include('tinymce.urls')),
     path('', include('books.urls', namespace='book')),
-    path('cart/', include('cart.urls', namespace='cart')),  # 购物车模块
+    path('cart/', include(('cart.urls', 'cart'), namespace='cart')),  # 购物车模块
 ]

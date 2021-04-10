@@ -263,13 +263,13 @@ html,body{height:100%}
 	line-height: 72px;
 }
 
-.prize_bar .show_prize {
+.prize_bar .show_pirze {
 	font-size: 20px;
 	color: #ff3e3e;
 	padding-left: 20px
 }
 
-.prize_bar .show_prize em {
+.prize_bar .show_pirze em {
 	font-style: normal;
 	font-size: 36px;
 	padding-left: 10px
